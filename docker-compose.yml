@@ -1,0 +1,127 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:latest
+    container_name: postgres_lab
+    networks:
+      - lab_network
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=my_database
+      - POSTGRES_URL=jdbc:postgresql://postgres_lab:5432/postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  minio:
+    image: quay.io/minio/minio
+    container_name: minio_lab
+    networks:
+      - lab_network
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
+
+    command: server /data --console-address ":9001"
+    volumes:
+      - minio_data:/data
+
+  spark:
+    image: apache/spark:3.5.0
+    container_name: spark_master
+    networks:
+      - lab_network
+    ports:
+      - "7077:7077"
+      - "8080:8080"
+    command: >
+      /opt/spark/bin/spark-class org.apache.spark.deploy.master.Master
+    
+     
+  metabase:
+    image: metabase/metabase:latest
+    container_name: metabase
+    ports:
+      - "3000:3000"
+    networks:
+      - lab_network
+    environment:
+      - MB_DB_TYPE=h2
+    volumes:      
+      - ./metabase_data:/metabase.db
+    
+  spark-jupyter:
+    build: .
+    container_name: spark_jupyter
+    depends_on:
+      - spark
+    networks:
+      - lab_network
+    ports:
+      - "8888:8888"
+    volumes:
+      - ./notebooks:/home/jovyan/work
+    environment:      
+      - PYSPARK_SUBMIT_ARGS=--master spark://spark:7077 --packages org.apache.hadoop:hadoop-aws:3.3.4,com.amazonaws:aws-java-sdk-bundle:1.12.262,io.delta:delta-spark_2.12:3.1.0,org.postgresql:postgresql:42.7.3 --conf spark.sql.extensions=io.delta.sql.DeltaSparkSessionExtension --conf spark.sql.catalog.spark_catalog=org.apache.spark.sql.delta.catalog.DeltaCatalog --conf spark.hadoop.fs.s3a.endpoint=http://minio:9000 --conf spark.hadoop.fs.s3a.access.key=admin --conf spark.hadoop.fs.s3a.secret.key=SenhaForte123! --conf spark.hadoop.fs.s3a.path.style.access=true --conf spark.hadoop.fs.s3a.connection.ssl.enabled=false --conf spark.hadoop.fs.s3a.aws.credentials.provider=org.apache.hadoop.fs.s3a.SimpleAWSCredentialsProvider pyspark-shell
+      
+      - MINIO_ENDPOINT=${MINIO_ENDPOINT}
+      - MINIO_ROOT_USER=${MINIO_ROOT_USER}
+      - MINIO_ROOT_PASSWORD=${MINIO_ROOT_PASSWORD}
+      - POSTGRES_HOST=${POSTGRES_HOST}
+      - POSTGRES_PORT=${POSTGRES_PORT}
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+
+
+
+    command: start-notebook.sh --NotebookApp.token=''
+
+      
+  spark-worker:
+    image: apache/spark:3.5.0
+    container_name: spark_worker
+    depends_on:
+      - spark
+    networks:
+      - lab_network
+    ports:
+      - "8082:8080"
+    command: >
+      /opt/spark/bin/spark-class org.apache.spark.deploy.worker.Worker spark://spark:7077
+      
+networks:
+  lab_network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+    external: true
+  minio_data:
+    external: true
+  nifi_conf:
+    external: true
+  nifi_content:
+    external: true
+  nifi_data:
+    external: true
+  nifi_flow:
+    external: true
+  nifi_provenance:
+    external: true
+  nifi_lib:
+    external: true
+  spark_output:
+    external: false
+  kafka_data:
+  
+  metabase_data:
+    external: false
+
+

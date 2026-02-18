@@ -1,0 +1,46 @@
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# Virtual environment
+.venv/
+env/
+venv/
+
+# VS Code
+.vscode/
+
+# Pytest cache
+.pytest_cache/
+
+# MyPy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre
+.pyre/
+
+# Logs and local data
+*.log
+*.csv
+*.parquet
+
+# Spark/Delta temp files
+*.crc
+*/_delta_log/
+*/_spark_metadata/
+
+#Metabase
+metabase_data
+
+# Local config
+.env
