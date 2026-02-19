@@ -1,5 +1,6 @@
-import os
-from pyspark.sql import SparkSession
+import sys
+sys.path.append("/home/jovyan/work/Scripts")
+from pyspark.sql.functions import col
 
 from spark_session import create_spark_session
 spark = create_spark_session()
@@ -16,8 +17,8 @@ df_sel = df_raw.select("UF_ZI", "ANO_CMPT","MES_CMPT","MUNIC_RES", "SEXO", "IDAD
 df_sel = (
     df_sel
     .withColumnRenamed("UF_ZI", "uf")
-    .withColumnRenamed("ANO_CMPT", "ano")
-    .withColumnRenamed("MES_CMPT", "mes")
+    .withColumnRenamed("ANO_CMPT", "ano_competencia")
+    .withColumnRenamed("MES_CMPT", "mes_competencia")
     .withColumnRenamed("MUNIC_RES", "municipio_id")
     .withColumnRenamed("SEXO", "sexo")
     .withColumnRenamed("IDADE", "idade")   
@@ -28,11 +29,12 @@ df_sel = (
     .withColumnRenamed("DT_SAIDA", "data_saida")    
 )
 
-
 try:
     df_sel.write.format("delta") \
         .mode("overwrite") \
-        .partitionBy("ano", "mes") \
+        .partitionBy("ano_competencia", "mes_competencia") \
         .save(silver_path)
 except Exception as e:
     print("Erro:", e)
+
+spark.stop()
