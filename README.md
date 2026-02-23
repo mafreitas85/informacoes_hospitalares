@@ -127,7 +127,7 @@ Isso irá:
 
 - Enviar arquivos auxiliares
 
-![Imagem](/home/marcos/Documentos/Projetos/Informacoes_hospitalares/docs/Setup_lake.PNG)
+![Imagem](./docs/Setup_lake.PNG)
 
 Estrutura de pasta criada no MinIO : [http://localhost:9001](http://localhost:9001) ou [http://127.0.0.1:9001](http://127.0.0.1:9001) Login: `admin` | Senha: `SenhaForte123!  
 
@@ -145,7 +145,7 @@ Isso fará:
 
 Download deve demorar alguns minutos, ao término será possível visualizar os arquivos parquet's na camada bronze.
 
-![Imagem](/home/marcos/Documentos/Projetos/Informacoes_hospitalares/docs/download_sih.PNG)
+![Imagem](./docs/download_sih.PNG)
 
 6. **Processamento Bronze → Silver**
 
@@ -174,7 +174,7 @@ Gera:
 
 O dashboard foi criado no Metabase, explorando os principais motivos de internação no estado de SP.
 
-![Imagem](/home/marcos/Documentos/Projetos/Informacoes_hospitalares/docs/Dashboard.png)
+![Imagem](./docs/Dashboard.png)
 
 Obs: A pasta metabase_data não carreguei para o repositório.
 
