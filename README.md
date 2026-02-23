@@ -24,7 +24,7 @@ Construir um pipeline de dados que:
 
 ---
 
-## 🧱 Arquitetura
+## Arquitetura
 
 SIH (Download)
       ↓
@@ -156,8 +156,6 @@ python work/Scripts/01_bronze_to_silver.py
 Gera:
 
 - Delta Lake particionado por ano e mês
-  
-  
 7. **Processamento Silver → Gold**
 
 ```bash
