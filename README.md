@@ -1,14 +1,14 @@
 # Informações Hospitalares – Pipeline de Engenharia de Dados
 
-Projeto completo de engenharia de dados utilizando dados públicos do SIH-SUS (Sistema de Informações Hospitalares do SUS).
+Projeto de engenharia de dados utilizando dados públicos do SIH-SUS (Sistema de Informações Hospitalares do SUS).
 
-O projeto implementa uma arquitetura moderna baseada em Data Lake com camadas **Bronze, Silver e Gold**, utilizando Docker para garantir reprodutibilidade do ambiente.
+O projeto implementa uma arquitetura baseada em Data Lake com camadas **Bronze, Silver e Gold**, utilizando Docker para garantir reprodutibilidade do ambiente.
 
 ---
 
 ## Objetivo
 
-Construir um pipeline completo de dados que:
+Construir um pipeline de dados que:
 
 - Realiza download automatizado dos dados do SIH
 
@@ -38,13 +38,15 @@ PostgreSQL
       ↓
 Metabase Dashboard
 
+
+
 ## Stack Utilizada
 
 - Apache Spark 3.5
 
 - Delta Lake
 
-- MinIO (S3 Compatible)
+- MinIO (S3 Compatível)
 
 - PostgreSQL
 
@@ -78,8 +80,6 @@ Informacoes_hospitalares/
 > - Git
 > - PySpark (caso rode localmente fora do container)
 
-
-
 1. **Clone o repositório:**
 
 ```bash
@@ -105,30 +105,27 @@ Isso irá subir:
 
 - Metabase
 
-
-
-3. **Acesse os serviços:**
-   
-   
-- **MinIO**: http://localhost:9001  
-  Login: `admin` | Senha: `SenhaForte123!`
-
-- **Metabase**: http://localhost:3000  
-  Login: definido na primeira configuração
-
-- **PostgreSQL**: `localhost:5432`  
-  Usuário: `admin` | Senha: `SenhaForte123!` | Banco: `my_database`
+Obs: Na primeira execução pode demorar alguns minutos, até baixar todas as imagens.
 
 
 
-4. **Preparar o Data Lake**
+**Execução dos Scripts**    
 
-        Execute dentro do container do Jupyter:
+3. Os scripts devem ser executador no jupyterLab.
+
+Acesse: http://localhost:8888/lab ou http://127.0.0.1:8888/lab
+
+
+
+**Preparar o Data Lake**
+
+      No jupyterLab abra um terminal e execute:
 
 ```bash
-docker exec -it spark_jupyter bash
-python Scripts/setup_lake.pyIsso irá:
+python work/Scripts/setup_lake.py
 ```
+
+Isso irá:
 
 - Criar bucket datalake
 
@@ -136,12 +133,18 @@ python Scripts/setup_lake.pyIsso irá:
 
 - Enviar arquivos auxiliares
 
+![Imagem](/home/marcos/Downloads/OneDrive_1_22-02-2026/01.PNG)
+
+
+
+Estrutura de pasta criada no MinIO : [http://localhost:9001](http://localhost:9001) ou [http://127.0.0.1:9001](http://127.0.0.1:9001) Login: `admin` | Senha: `SenhaForte123!  
+
 
 
 5. **Download dos Dados**
    
    ```bash
-   python Scripts/download_sih.py
+   python work/Scripts/00_download_sih.py
    ```
 
 Isso fará:
@@ -152,10 +155,18 @@ Isso fará:
 
 
 
+Download deve demorar alguns minutos, ao término será possível visualizar os arquivos parquet's na camada bronze.
+
+
+
+![Imagem](/home/marcos/Downloads/OneDrive_1_22-02-2026/2.PNG)
+
+
+
 6. **Processamento Bronze → Silver**
 
 ```bash
-python Scripts/01_bronze_to_silver.py
+python work/Scripts/01_bronze_to_silver.py
 ```
 
 Gera:
@@ -167,7 +178,7 @@ Gera:
 7. **Processamento Silver → Gold**
 
 ```bash
-python Scripts/02_silver_to_gold.py
+python work/Scripts/02_silver_to_gold.py
 ```
 
 Gera:
@@ -178,19 +189,35 @@ Gera:
 
 - Publicação no PostgreSQL
 
-
-
 ## 📊 Dashboard
 
 O dashboard foi criado no Metabase, explorando os principais motivos de internação no estado de SP.
 
-> 📷 Um print do dashboard será incluído na pasta `/docs`.
+
+
+![Imagem](/home/marcos/Downloads/OneDrive_1_22-02-2026/Dashboard.png)
+
+
+
+
+
+Obs: A pasta metabase_data não carreguei para o repositório.
+
+Acesse o metabase no link abaixo, siga os passos e fique a vontade para criar seu próprio Dashboard!! :) 
 
 
 
 Link metabase: http://localhost:3000
 
 
+
+Configuração metabase
+
+-   Preencha com seus dados, nome, e-mail e etc...
+
+-   Defina uma senha
+  
+  
 
 Configure conexão PostgreSQL:
 
@@ -203,6 +230,14 @@ Configure conexão PostgreSQL:
 - Usuário: admin
 
 - Senha: SenhaForte123!
+
+
+
+Logo que conectado no postgres, por default o metabase já oferece uma análise nos dados do banco.
+
+![](/home/marcos/snap/marktext/9/.config/marktext/images/2026-02-22-21-42-55-image.png)
+
+
 
 ---
 

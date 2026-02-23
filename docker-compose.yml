@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   postgres:
-    image: postgres:latest
+    image: postgres:16
     container_name: postgres_lab
     networks:
       - lab_network
@@ -102,26 +102,9 @@ networks:
 
 volumes:
   postgres_data:
-    external: true
   minio_data:
-    external: true
-  nifi_conf:
-    external: true
-  nifi_content:
-    external: true
-  nifi_data:
-    external: true
-  nifi_flow:
-    external: true
-  nifi_provenance:
-    external: true
-  nifi_lib:
-    external: true
   spark_output:
-    external: false
-  kafka_data:
-  
   metabase_data:
-    external: false
+
 
 

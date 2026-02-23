@@ -41,8 +41,8 @@ for prefixo in prefixos:
 print("Enviando arquivos auxiliares...")
 
 arquivos_aux = [
-    ("auxiliar/Tabela_municipio.csv", "Auxiliar/Tabela_municipio.csv"),
-    ("auxiliar/cid_descricao_comuns.csv", "Auxiliar/cid_descricao_comuns.csv"),
+    ("/home/jovyan/work/Auxiliar/Tabela_municipio.csv", "Auxiliar/Tabela_municipio.csv"),
+    ("/home/jovyan/work/Auxiliar/cid_descricao_comuns.csv", "Auxiliar/cid_descricao_comuns.csv"),
 ]
 
 for origem, destino in arquivos_aux:

@@ -11,8 +11,14 @@ def create_spark_session(app_name="Pipeline Hospitalar"):
     spark = (
         SparkSession.builder
         .appName(app_name)
-        .config("spark.master", "spark://spark:7077")
-        .config("spark.jars.packages", "org.apache.hadoop:hadoop-aws:3.3.4")
+        .master("spark://spark:7077")
+        .config(
+            "spark.jars.packages",
+            ",".join([
+                "org.apache.hadoop:hadoop-aws:3.3.4",
+                "com.amazonaws:aws-java-sdk-bundle:1.12.262"
+            ])
+        )
         .config("spark.sql.extensions", "io.delta.sql.DeltaSparkSessionExtension")
         .config("spark.sql.catalog.spark_catalog", "org.apache.spark.sql.delta.catalog.DeltaCatalog")
         .config("spark.hadoop.fs.s3a.endpoint", minio_endpoint)
