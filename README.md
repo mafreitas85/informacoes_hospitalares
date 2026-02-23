@@ -38,8 +38,6 @@ PostgreSQL
       ↓
 Metabase Dashboard
 
-
-
 ## Stack Utilizada
 
 - Apache Spark 3.5
@@ -58,7 +56,7 @@ Metabase Dashboard
 
 - boto3
 
-## 📁 Estrutura do Projeto
+## Estrutura do Projeto
 
 ```
 Informacoes_hospitalares/
@@ -72,7 +70,7 @@ Informacoes_hospitalares/
 
 ---
 
-## ▶️ Como Executar Localmente
+## Como Executar Localmente
 
 > Pré-requisitos:
 > 
@@ -107,15 +105,11 @@ Isso irá subir:
 
 Obs: Na primeira execução pode demorar alguns minutos, até baixar todas as imagens.
 
-
-
 **Execução dos Scripts**    
 
-3. Os scripts devem ser executador no jupyterLab.
+3. Os scripts devem ser executados no jupyterLab.
 
 Acesse: http://localhost:8888/lab ou http://127.0.0.1:8888/lab
-
-
 
 **Preparar o Data Lake**
 
@@ -133,13 +127,9 @@ Isso irá:
 
 - Enviar arquivos auxiliares
 
-![Imagem](/home/marcos/Downloads/OneDrive_1_22-02-2026/01.PNG)
-
-
+![Imagem](/home/marcos/Documentos/Projetos/Informacoes_hospitalares/docs/Setup_lake.PNG)
 
 Estrutura de pasta criada no MinIO : [http://localhost:9001](http://localhost:9001) ou [http://127.0.0.1:9001](http://127.0.0.1:9001) Login: `admin` | Senha: `SenhaForte123!  
-
-
 
 5. **Download dos Dados**
    
@@ -153,15 +143,9 @@ Isso fará:
 
 - Envio automático para a camada Bronze
 
-
-
 Download deve demorar alguns minutos, ao término será possível visualizar os arquivos parquet's na camada bronze.
 
-
-
-![Imagem](/home/marcos/Downloads/OneDrive_1_22-02-2026/2.PNG)
-
-
+![Imagem](/home/marcos/Documentos/Projetos/Informacoes_hospitalares/docs/download_sih.PNG)
 
 6. **Processamento Bronze → Silver**
 
@@ -172,9 +156,8 @@ python work/Scripts/01_bronze_to_silver.py
 Gera:
 
 - Delta Lake particionado por ano e mês
-
-
-
+  
+  
 7. **Processamento Silver → Gold**
 
 ```bash
@@ -193,31 +176,19 @@ Gera:
 
 O dashboard foi criado no Metabase, explorando os principais motivos de internação no estado de SP.
 
-
-
-![Imagem](/home/marcos/Downloads/OneDrive_1_22-02-2026/Dashboard.png)
-
-
-
-
+![Imagem](/home/marcos/Documentos/Projetos/Informacoes_hospitalares/docs/Dashboard.png)
 
 Obs: A pasta metabase_data não carreguei para o repositório.
 
 Acesse o metabase no link abaixo, siga os passos e fique a vontade para criar seu próprio Dashboard!! :) 
 
-
-
 Link metabase: http://localhost:3000
-
-
 
 Configuração metabase
 
--   Preencha com seus dados, nome, e-mail e etc...
+- Preencha com seus dados, nome, e-mail e etc...
 
--   Defina uma senha
-  
-  
+- Defina uma senha
 
 Configure conexão PostgreSQL:
 
@@ -231,13 +202,9 @@ Configure conexão PostgreSQL:
 
 - Senha: SenhaForte123!
 
-
-
 Logo que conectado no postgres, por default o metabase já oferece uma análise nos dados do banco.
 
 ![](/home/marcos/snap/marktext/9/.config/marktext/images/2026-02-22-21-42-55-image.png)
-
-
 
 ---
 
@@ -247,7 +214,3 @@ Logo que conectado no postgres, por default o metabase já oferece uma análise 
 [LinkedIn](https://www.linkedin.com/in/marcos-freitas-alves)
 
 ---
-
-## 📄 Licença
-
-Este projeto está licenciado sob os termos da licença MIT.
